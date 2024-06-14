@@ -1,0 +1,7 @@
+#controlador{
+    width: 40%;
+    height: 5% ;
+    background-color: #b4aee1;
+    display: flex;
+    justify-content: space-between
+}
