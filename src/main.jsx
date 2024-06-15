@@ -5,7 +5,8 @@ import App from './App.jsx'
 import CreadorPFV from './pages/CreadorPFV.jsx'
 import CreadorPMultiple from './pages/CreadorPMultiple.jsx'
 import './index.css'
-import Observar from './pages/Observar.jsx'
+import SimulacionCuestionario from './pages/SimulacionCuestionario.jsx'
+
 
 const router = createBrowserRouter([
   
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
   ,
   {
     path: "/generate",
-    element: <Observar />,
+    element: <SimulacionCuestionario />,
   }
 ]);
 

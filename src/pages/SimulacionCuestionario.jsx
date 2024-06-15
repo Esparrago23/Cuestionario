@@ -1,7 +1,7 @@
 import Quiz from "../components/organims/Quiz";
-import VerCuestionario from "../components/organims/PFV";
 
-function Observar(){
+
+function SimulacionCuestionario(){
     return (
         <>
         <div id="login-form">
@@ -11,4 +11,4 @@ function Observar(){
     )
 }
 
-export default Observar;
+export default SimulacionCuestionario;

@@ -1,6 +1,7 @@
 
 export class Question {
     #id
+    #tipo
     #pregunta
     #respuesta
     #respuesta1
@@ -16,7 +17,8 @@ export class Question {
 
    setPregunta(pregunta){this.#pregunta=pregunta}
    getPregunta(){return this.#pregunta}
-
+   setTipo(tipo){this.#tipo=tipo}
+   getTipo(){return this.#tipo}
    
 
     getRespuesta(){return this.#respuesta}

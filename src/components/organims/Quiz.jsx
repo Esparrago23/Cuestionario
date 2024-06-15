@@ -1,114 +1,83 @@
 import { useState } from "react";
-import Field from "../molecules/Field";
 import Button from "../atoms/Button";
 import Swal from "sweetalert2";
-
-
-import './CreacionCuestionario.css'
+import './CreacionCuestionario.css';
 import ControladorPages from "../molecules/ControladorPages";
 import { cuestionario } from "../../Data/dependecies.mjs";
-import Label from "../atoms/Label";
 import Preguntas from "../molecules/Preguntas";
 
 function Quiz() {
-  const [preguntasAbiertas,setPreguntasa] = useState([])
-  
-  const [respuesta1,setRespuesta1] = useState('')
-  const [respuestasAbiertas,setRespuestasa] = useState([])
- 
-  let v=0
- 
-  const handlerClick=(event) =>{
-    console.log(cuestionario.countCuestionario())
-    /*
-    let lista = [];
-        let repetido;
-        for (let i = 0; i < cuestionario.countCuestionario(); i++) {
-            while (!lista[i]) {
-                repetido = true;
-                while (repetido == true) {
-                    let random = Math.random();
-                    console.log(cuestionario.countCuestionario() )
-                    random = random * cuestionario.countCuestionario() ;
-                    random = Math.trunc(random);
-                    for (let j = 0; j < lista.length; j++) {
-                        if (lista[j] == random) {
-                            repetido = true;
-                            break;
-                        } else {
-                            repetido = false;
-                        }
-                    }
-                    lista[i] = random;
-                }
+  const [preguntas, setPreguntas] = useState([]);
+  const [respuestas, setRespuestas] = useState({});
+  const [resultados, setResultados] = useState("");
 
-            }
-          }
-        */
+  const handlerClick = () => {
     const newPreguntasAbiertas = [];
-    
-  
-     for(v;v<cuestionario.countCuestionario();v++){
-     
-      console.log(v)
-        let b=cuestionario.seeCuestionario(/*lista[v]-1*/v)
-       
-        
-            newPreguntasAbiertas.push(b);
-        
-            
-     }
-     
-     setPreguntasa(newPreguntasAbiertas);
-     
-     
-  }
-  const handleClick=(event) =>{
-    Swal.fire({
-      
-      title: "Respuesta correcta",
-      
+    for (let v = 0; v < cuestionario.countCuestionario(); v++) {
+      let b = cuestionario.seeCuestionario(v);
+      newPreguntasAbiertas.push(b);
+    }
+    setPreguntas(newPreguntasAbiertas);
+  };
+
+  const handleClick = () => {
+    let calificacion = 0;
+
+    preguntas.forEach((item, index) => {
+      const respuesta = respuestas[index];
+      console.log(item.getRespuesta4()+"="+respuesta)
+      if (item.getTipo() === "abierta" && item.getRespuesta() === respuesta) {
+        calificacion++;
+      } else if (item.getTipo() === "Falso/verdadero" && item.getRespuestav() === (respuesta)) {
+        calificacion++;
+      } else if (item.getTipo() === "Multiple" && item.getRespuesta4() === respuesta) {
+        calificacion++;
+      }
     });
-    console.log(respuesta1+" = "+texta)
-    const newRespuestasAbiertas = [];
-    for(v=0;v<cuestionario.countCuestionario()&&v<10;v++){
-      console.log(v)
-        let b=cuestionario.seeCuestionario(/*lista[v]-1*/v)
-        newRespuestasAbiertas.push(b);
-       
-     }
-     setRespuestasa(newRespuestasAbiertas);
-  }
-    
+
+    setResultados(calificacion);
+
+    Swal.fire({
+      title: "Calificación",
+      text: `Tu calificación es: ${calificacion}`
+    });
+  };
+
+  const handleResponseChange = (index, value) => {
+    setRespuestas(prevState => ({
+      ...prevState,
+      [index]: value
+    }));
+  };
+
   return (
-    <>
-      <div id="Creador">
-        <ControladorPages />
-        <div id="form_login-box">
-          <Button title="Mostrar" onClick={handlerClick} />
-          <div>
-            <ol>
-              {preguntasAbiertas.map((item, index) => (
-                <Preguntas
-                  key={`abierta-${index}`}
-                  text={item.getPregunta()}
-                  val={respuesta1} fnval={setRespuesta1}
-                  texta={item.getRespuesta()}
-                  text1={item.getRespuesta1()}
-                  text2={item.getRespuesta2()}
-                  text3={item.getRespuesta3()}
-                  text4={item.getRespuesta4()}
-                  textv={item.getRespuestav()}
-                  textf={item.getRespuestaf()}
-                />
-              ))}
-             
-            </ol>
-          </div>
-          <Button title="Enviar" onClick={handleClick} />
+    <div id="Creador">
+      <ControladorPages />
+      <div id="form_login-box">
+        <Button title="Mostrar" onClick={handlerClick} />
+        <div>
+          <ol>
+            {preguntas.map((item, index) => (
+              <Preguntas
+                tipo={item.getTipo()}
+                key={item.getId()}
+                text={item.getPregunta()}
+                texta={item.getRespuesta()}
+                text1={item.getRespuesta1()}
+                text2={item.getRespuesta2()}
+                text3={item.getRespuesta3()}
+                text4={item.getRespuesta4()}
+                textv={item.getRespuestav()}
+                textf={item.getRespuestaf()}
+                val={respuestas[index] || ""}
+                fnval={value => handleResponseChange(index, value)}
+              />
+            ))}
+          </ol>
         </div>
+        <Button title="Enviar" onClick={handleClick} />
       </div>
-    </>
+    </div>
   );
 }
 

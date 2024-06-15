@@ -6,10 +6,10 @@ import Field from "../molecules/Field";
 import ControladorPages from "../molecules/ControladorPages";
 import { cuestionario } from "../../Data/dependecies.mjs";
 function PFV() {
-    const [questionB,setQuestionB] = useState('')
+  const [questionB,setQuestionB] = useState('')
   const [respuestaBF,setRespuestaBF] = useState('')
   const [respuestaBV,setRespuestaBV] = useState('')
-    
+  const tipo="Falso/verdadero"
     const handlerClick=(event) =>{
         Swal.fire({
             position: "center",
@@ -18,7 +18,7 @@ function PFV() {
             showConfirmButton: false,
             timer: 1000
           });
-        cuestionario.addQuestionB(questionB,respuestaBF,respuestaBV)
+        cuestionario.addQuestion(questionB,undefined,undefined,undefined,undefined,undefined,respuestaBF,respuestaBV,tipo)
         console.log(questionB+" = "+respuestaBF +"/"+respuestaBV)
          }
     return(

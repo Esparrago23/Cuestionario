@@ -4,7 +4,7 @@ import CreadorPAbiertas from "./pages/CreadorPAbiertas"
 function App() {
   return (
     <HelmetProvider>
-      <CreadorPAbiertas />
+      <CreadorPAbiertas></CreadorPAbiertas>
     </HelmetProvider>
   )
 }
